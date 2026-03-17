@@ -43,7 +43,7 @@ export default function FileCard({ item, onConvert, onDownload, onRemove }: File
         </p>
       </div>
 
-      {/* Status */}
+      {/* Status / Download */}
       <div className="flex-shrink-0">
         {item.status === "pending" && (
           <span className="text-xs text-muted">Pending</span>
@@ -52,47 +52,31 @@ export default function FileCard({ item, onConvert, onDownload, onRemove }: File
           <span className="text-xs text-blue-400">Converting</span>
         )}
         {item.status === "done" && (
-          <span className="text-xs text-emerald-400">Done</span>
+          <button
+            onClick={(e) => { e.stopPropagation(); onDownload(); }}
+            className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-600 transition-colors hover:bg-emerald-100"
+          >
+            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            Download
+          </button>
         )}
         {item.status === "error" && (
           <span className="text-xs text-red-400">Error</span>
         )}
       </div>
 
-      {/* Actions */}
-      <div className="flex items-center gap-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-        {item.status === "pending" && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onConvert(); }}
-            className="rounded-md p-1.5 text-muted transition-colors hover:bg-black/[0.06] hover:text-gray-900"
-            title="Convert"
-          >
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
-            </svg>
-          </button>
-        )}
-        {item.status === "done" && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onDownload(); }}
-            className="rounded-md p-1.5 text-muted transition-colors hover:bg-black/[0.06] hover:text-emerald-400"
-            title="Download PDF"
-          >
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-            </svg>
-          </button>
-        )}
-        <button
-          onClick={(e) => { e.stopPropagation(); onRemove(); }}
-          className="rounded-md p-1.5 text-muted transition-colors hover:bg-black/[0.06] hover:text-red-400"
-          title="Remove"
-        >
-          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
+      {/* Remove */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onRemove(); }}
+        className="flex-shrink-0 rounded-md p-1.5 text-muted transition-colors hover:bg-black/[0.06] hover:text-red-400 opacity-0 group-hover:opacity-100"
+        title="Remove"
+      >
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
   );
 }
