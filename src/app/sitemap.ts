@@ -3,13 +3,13 @@ import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://pngtojpg.co.uk",
+      url: "https://pngtopdf.co.uk",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
     },
     {
-      url: "https://pngtojpg.co.uk/privacy",
+      url: "https://pngtopdf.co.uk/privacy",
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.3,

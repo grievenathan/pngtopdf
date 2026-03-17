@@ -7,7 +7,7 @@ export default function Logo({ size = 36 }: { size?: number }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="32" height="32" fill="#fff" />
+      <rect width="32" height="32" rx="6" fill="#111" />
       <text
         x="16"
         y="10.5"
@@ -16,11 +16,11 @@ export default function Logo({ size = 36 }: { size?: number }) {
         fontFamily="system-ui, -apple-system, sans-serif"
         fontWeight="900"
         fontSize="11.5"
-        fill="#0c0c0c"
+        fill="#fff"
       >
         PNG
       </text>
-      <line x1="6" y1="16.5" x2="26" y2="16.5" stroke="#0c0c0c" strokeWidth="0.5" opacity="0.15" />
+      <line x1="6" y1="16.5" x2="26" y2="16.5" stroke="#fff" strokeWidth="0.5" opacity="0.2" />
       <text
         x="16"
         y="23"
@@ -29,9 +29,9 @@ export default function Logo({ size = 36 }: { size?: number }) {
         fontFamily="system-ui, -apple-system, sans-serif"
         fontWeight="900"
         fontSize="11.5"
-        fill="#0c0c0c"
+        fill="#fff"
       >
-        JPG
+        PDF
       </text>
     </svg>
   );

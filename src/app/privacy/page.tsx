@@ -2,8 +2,8 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 
 export const metadata = {
-  title: "Privacy Policy - PNG To JPG",
-  description: "Privacy policy for pngtojpg.co.uk. All image conversion happens locally in your browser - your files never leave your device.",
+  title: "Privacy Policy - PNG To PDF",
+  description: "Privacy policy for pngtopdf.co.uk. All image conversion happens locally in your browser - your files never leave your device.",
 };
 
 export default function PrivacyPolicy() {
@@ -14,15 +14,15 @@ export default function PrivacyPolicy() {
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={32} />
-            <span className="text-[15px] font-bold tracking-tight text-white">
-              PNG To JPG
+            <span className="text-[15px] font-bold tracking-tight text-gray-900">
+              PNG To PDF
             </span>
           </Link>
         </div>
       </nav>
 
       <main className="mx-auto max-w-3xl px-6 py-16">
-        <h1 className="mb-2 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+        <h1 className="mb-2 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
           Privacy Policy
         </h1>
         <p className="mb-12 text-sm text-muted">Last updated: March 2026</p>
@@ -31,7 +31,7 @@ export default function PrivacyPolicy() {
 
           <Section title="The short version">
             <p>
-              This tool converts your PNG images to JPG entirely inside your browser.
+              This tool converts your PNG images to PDF entirely inside your browser.
               Your image files are never uploaded to our servers - they stay on your
               device at all times.
             </p>
@@ -39,7 +39,7 @@ export default function PrivacyPolicy() {
 
           <Section title="Who we are">
             <p>
-              pngtojpg.co.uk is operated by Modern CV Limited.
+              pngtopdf.co.uk is operated by Modern CV Limited.
             </p>
           </Section>
 
@@ -51,7 +51,7 @@ export default function PrivacyPolicy() {
             <ul className="mt-3 space-y-2 text-muted">
               <ListItem>The file is read into browser memory only</ListItem>
               <ListItem>The conversion happens on your device - no image data leaves your browser</ListItem>
-              <ListItem>The converted JPG is made available for download directly</ListItem>
+              <ListItem>The converted PDF is made available for download directly</ListItem>
             </ul>
           </Section>
 
@@ -112,11 +112,11 @@ export default function PrivacyPolicy() {
         <footer className="mt-16 border-t border-border pt-8">
           <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:text-left">
             <p className="text-sm text-muted">
-              &copy; {new Date().getFullYear()} pngtojpg.co.uk
+              &copy; {new Date().getFullYear()} pngtopdf.co.uk
             </p>
             <Link
               href="/"
-              className="text-sm text-muted hover:text-white transition-colors"
+              className="text-sm text-muted hover:text-gray-900 transition-colors"
             >
               &larr; Back to converter
             </Link>
@@ -136,7 +136,7 @@ function Section({
 }) {
   return (
     <section>
-      <h2 className="mb-3 text-base font-semibold text-white">{title}</h2>
+      <h2 className="mb-3 text-base font-semibold text-gray-900">{title}</h2>
       <div className="text-sm leading-relaxed text-muted">{children}</div>
     </section>
   );

@@ -2,22 +2,22 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
-  --color-border: #1e1e1e;
-  --color-surface: #141414;
-  --color-surface-hover: #1a1a1a;
-  --color-muted: #888;
-  --color-accent: #e8e4dd;
+  --color-border: #e5e5e5;
+  --color-surface: #f9f9f9;
+  --color-surface-hover: #f3f3f3;
+  --color-muted: #6b6b6b;
+  --color-accent: #3b3b3b;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+  scrollbar-color: rgba(0, 0, 0, 0.12) transparent;
 }
 
 body {
   min-height: 100vh;
-  background: #0c0c0c;
-  color: #fff;
+  background: #ffffff;
+  color: #111;
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
 }
 
@@ -27,6 +27,6 @@ body {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 60%),
-    #0c0c0c;
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0, 0, 0, 0.02) 0%, transparent 60%),
+    #ffffff;
 }

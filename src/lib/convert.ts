@@ -1,46 +1,35 @@
-export function convertPngToJpg(file: File, quality = 0.92): Promise<Blob> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
+import { PDFDocument } from "pdf-lib";
 
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
+function pdfBytesToBlob(pdfBytes: Uint8Array): Blob {
+  return new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
+}
 
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        URL.revokeObjectURL(url);
-        reject(new Error("Could not get canvas context"));
-        return;
-      }
+export async function convertPngToPdf(file: File): Promise<Blob> {
+  const arrayBuffer = await file.arrayBuffer();
+  const pdfDoc = await PDFDocument.create();
+  const pngImage = await pdfDoc.embedPng(arrayBuffer);
 
-      // Fill white background (PNG transparency becomes white in JPG)
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
-      URL.revokeObjectURL(url);
+  const { width, height } = pngImage.scale(1);
+  const page = pdfDoc.addPage([width, height]);
+  page.drawImage(pngImage, { x: 0, y: 0, width, height });
 
-      canvas.toBlob(
-        (blob) => {
-          if (blob) {
-            resolve(blob);
-          } else {
-            reject(new Error("Conversion failed"));
-          }
-        },
-        "image/jpeg",
-        quality,
-      );
-    };
+  const pdfBytes = await pdfDoc.save();
+  return pdfBytesToBlob(pdfBytes);
+}
 
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error("Failed to load image"));
-    };
+export async function convertMultiplePngsToPdf(files: File[]): Promise<Blob> {
+  const pdfDoc = await PDFDocument.create();
 
-    img.src = url;
-  });
+  for (const file of files) {
+    const arrayBuffer = await file.arrayBuffer();
+    const pngImage = await pdfDoc.embedPng(arrayBuffer);
+    const { width, height } = pngImage.scale(1);
+    const page = pdfDoc.addPage([width, height]);
+    page.drawImage(pngImage, { x: 0, y: 0, width, height });
+  }
+
+  const pdfBytes = await pdfDoc.save();
+  return pdfBytesToBlob(pdfBytes);
 }
 
 export function formatFileSize(bytes: number): string {
@@ -49,6 +38,6 @@ export function formatFileSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export function getJpgFilename(originalName: string): string {
-  return originalName.replace(/\.png$/i, ".jpg");
+export function getPdfFilename(originalName: string): string {
+  return originalName.replace(/\.png$/i, ".pdf");
 }

@@ -9,25 +9,25 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PNG to JPG Converter - Free, Fast, Private | PNG To JPG",
+  title: "PNG to PDF Converter - Free, Fast, Private | PNG To PDF",
   description:
-    "Convert PNG images to JPG format instantly in your browser. Free, fast, and private - your files never leave your device. Batch convert up to 20 images at once.",
-  keywords: ["png to jpg", "convert png to jpg", "image converter", "free jpg converter", "batch image converter"],
+    "Convert PNG images to PDF format instantly in your browser. Free, fast, and private - your files never leave your device. Batch convert up to 20 images or merge into a single PDF.",
+  keywords: ["png to pdf", "convert png to pdf", "image to pdf converter", "free pdf converter", "batch image to pdf", "merge png to pdf"],
   openGraph: {
-    title: "PNG to JPG Converter - Free, Fast, Private | PNG To JPG",
+    title: "PNG to PDF Converter - Free, Fast, Private | PNG To PDF",
     description:
-      "Convert PNG images to JPG format instantly in your browser. Free, fast, and private.",
-    url: "https://pngtojpg.co.uk",
-    siteName: "PNG To JPG",
+      "Convert PNG images to PDF format instantly in your browser. Free, fast, and private.",
+    url: "https://pngtopdf.co.uk",
+    siteName: "PNG To PDF",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PNG to JPG Converter - Free, Fast, Private",
+    title: "PNG to PDF Converter - Free, Fast, Private",
     description:
-      "Convert PNG images to JPG format instantly in your browser. Free, fast, and private.",
+      "Convert PNG images to PDF format instantly in your browser. Free, fast, and private.",
   },
-  metadataBase: new URL("https://pngtojpg.co.uk"),
+  metadataBase: new URL("https://pngtopdf.co.uk"),
 };
 
 export default function RootLayout({

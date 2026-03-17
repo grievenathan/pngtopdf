@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
-import { convertPngToJpg, formatFileSize, getJpgFilename } from "@/lib/convert";
-import JSZip from "jszip";
+import { convertPngToPdf, convertMultiplePngsToPdf, formatFileSize, getPdfFilename } from "@/lib/convert";
 import { saveAs } from "file-saver";
 import FileCard from "./FileCard";
 
@@ -10,8 +9,8 @@ export interface FileItem {
   id: string;
   file: File;
   status: "pending" | "converting" | "done" | "error";
-  jpgBlob?: Blob;
-  jpgSize?: number;
+  pdfBlob?: Blob;
+  pdfSize?: number;
   previewUrl: string;
   error?: string;
 }
@@ -23,7 +22,7 @@ export default function Converter() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
-  const [isZipping, setIsZipping] = useState(false);
+  const [isMerging, setIsMerging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = useCallback(
@@ -71,8 +70,8 @@ export default function Converter() {
 
   const convertOne = async (item: FileItem): Promise<FileItem> => {
     try {
-      const jpgBlob = await convertPngToJpg(item.file);
-      return { ...item, status: "done", jpgBlob, jpgSize: jpgBlob.size };
+      const pdfBlob = await convertPngToPdf(item.file);
+      return { ...item, status: "done", pdfBlob, pdfSize: pdfBlob.size };
     } catch {
       return { ...item, status: "error", error: "Conversion failed" };
     }
@@ -108,22 +107,22 @@ export default function Converter() {
   };
 
   const downloadOne = (item: FileItem) => {
-    if (!item.jpgBlob) return;
-    saveAs(item.jpgBlob, getJpgFilename(item.file.name));
+    if (!item.pdfBlob) return;
+    saveAs(item.pdfBlob, getPdfFilename(item.file.name));
   };
 
-  const downloadAll = async () => {
-    const doneFiles = files.filter((f) => f.status === "done" && f.jpgBlob);
+  const downloadAllMerged = async () => {
+    const doneFiles = files.filter((f) => f.status === "done");
     if (doneFiles.length === 0) return;
 
-    setIsZipping(true);
-    const zip = new JSZip();
-    for (const item of doneFiles) {
-      zip.file(getJpgFilename(item.file.name), item.jpgBlob!);
+    setIsMerging(true);
+    try {
+      const mergedBlob = await convertMultiplePngsToPdf(doneFiles.map((f) => f.file));
+      saveAs(mergedBlob, "merged-images.pdf");
+    } catch {
+      // silently fail
     }
-    const blob = await zip.generateAsync({ type: "blob" });
-    saveAs(blob, "converted-images.zip");
-    setIsZipping(false);
+    setIsMerging(false);
   };
 
   const removeFile = (id: string) => {
@@ -154,7 +153,7 @@ export default function Converter() {
           onClick={() => inputRef.current?.click()}
           className={`
             cursor-pointer transition-all m-4 rounded-xl border-2 border-dashed
-            ${isDragging ? "border-white/40 bg-white/[0.04]" : "border-white/[0.12] hover:border-white/25 hover:bg-white/[0.02]"}
+            ${isDragging ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400 hover:bg-gray-50"}
             ${hasFiles ? "p-6" : "p-10 sm:p-14"}
           `}
         >
@@ -168,7 +167,7 @@ export default function Converter() {
           />
 
           <div className="flex flex-col items-center gap-3 text-center">
-            <div className="rounded-lg border border-border bg-[#1a1a1a] p-3">
+            <div className="rounded-lg border border-border bg-white p-3">
               <svg
                 className="h-5 w-5 text-muted"
                 fill="none"
@@ -184,7 +183,7 @@ export default function Converter() {
               </svg>
             </div>
             <div>
-              <p className="text-sm font-medium text-white">
+              <p className="text-sm font-medium text-gray-900">
                 {isDragging ? "Drop your images here" : "Drop PNG files here, or click to browse"}
               </p>
               <p className="mt-1 text-xs text-muted">
@@ -204,7 +203,7 @@ export default function Converter() {
               </p>
               <button
                 onClick={clearAll}
-                className="text-xs text-muted hover:text-white transition-colors"
+                className="text-xs text-muted hover:text-gray-900 transition-colors"
               >
                 Clear all
               </button>
@@ -228,7 +227,7 @@ export default function Converter() {
                 <button
                   onClick={convertAll}
                   disabled={isConverting}
-                  className="flex-1 rounded-lg bg-white px-4 py-2.5 text-sm font-medium text-black transition-colors hover:bg-accent disabled:opacity-50"
+                  className="flex-1 rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:opacity-50"
                 >
                   {isConverting ? (
                     <span className="flex items-center justify-center gap-2">
@@ -240,18 +239,18 @@ export default function Converter() {
                 </button>
               )}
 
-              {doneCount > 0 && (
+              {doneCount > 1 && (
                 <button
-                  onClick={downloadAll}
-                  disabled={isZipping}
-                  className="flex-1 rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-surface-hover disabled:opacity-50"
+                  onClick={downloadAllMerged}
+                  disabled={isMerging}
+                  className="flex-1 rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm font-medium text-gray-900 transition-colors hover:bg-surface-hover disabled:opacity-50"
                 >
-                  {isZipping ? (
+                  {isMerging ? (
                     <span className="flex items-center justify-center gap-2">
-                      <Spinner /> Zipping...
+                      <Spinner /> Merging...
                     </span>
                   ) : (
-                    `Download ZIP (${doneCount})`
+                    `Merge all into PDF (${doneCount})`
                   )}
                 </button>
               )}

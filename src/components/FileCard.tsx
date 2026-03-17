@@ -1,7 +1,7 @@
 "use client";
 
 import { FileItem } from "./Converter";
-import { formatFileSize, getJpgFilename } from "@/lib/convert";
+import { formatFileSize, getPdfFilename } from "@/lib/convert";
 
 interface FileCardProps {
   item: FileItem;
@@ -12,7 +12,7 @@ interface FileCardProps {
 
 export default function FileCard({ item, onConvert, onDownload, onRemove }: FileCardProps) {
   return (
-    <div className="group flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-white/[0.03]">
+    <div className="group flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-black/[0.03]">
       {/* Thumbnail */}
       <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-md border border-border">
         <img
@@ -32,13 +32,13 @@ export default function FileCard({ item, onConvert, onDownload, onRemove }: File
 
       {/* File info */}
       <div className="flex-1 min-w-0">
-        <p className="truncate text-sm text-white">
-          {item.status === "done" ? getJpgFilename(item.file.name) : item.file.name}
+        <p className="truncate text-sm text-gray-900">
+          {item.status === "done" ? getPdfFilename(item.file.name) : item.file.name}
         </p>
         <p className="text-xs text-muted">
           {formatFileSize(item.file.size)}
-          {item.jpgSize && (
-            <span> &rarr; {formatFileSize(item.jpgSize)}</span>
+          {item.pdfSize && (
+            <span> &rarr; {formatFileSize(item.pdfSize)}</span>
           )}
         </p>
       </div>
@@ -64,7 +64,7 @@ export default function FileCard({ item, onConvert, onDownload, onRemove }: File
         {item.status === "pending" && (
           <button
             onClick={(e) => { e.stopPropagation(); onConvert(); }}
-            className="rounded-md p-1.5 text-muted transition-colors hover:bg-white/[0.06] hover:text-white"
+            className="rounded-md p-1.5 text-muted transition-colors hover:bg-black/[0.06] hover:text-gray-900"
             title="Convert"
           >
             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -75,8 +75,8 @@ export default function FileCard({ item, onConvert, onDownload, onRemove }: File
         {item.status === "done" && (
           <button
             onClick={(e) => { e.stopPropagation(); onDownload(); }}
-            className="rounded-md p-1.5 text-muted transition-colors hover:bg-white/[0.06] hover:text-emerald-400"
-            title="Download JPG"
+            className="rounded-md p-1.5 text-muted transition-colors hover:bg-black/[0.06] hover:text-emerald-400"
+            title="Download PDF"
           >
             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -85,7 +85,7 @@ export default function FileCard({ item, onConvert, onDownload, onRemove }: File
         )}
         <button
           onClick={(e) => { e.stopPropagation(); onRemove(); }}
-          className="rounded-md p-1.5 text-muted transition-colors hover:bg-white/[0.06] hover:text-red-400"
+          className="rounded-md p-1.5 text-muted transition-colors hover:bg-black/[0.06] hover:text-red-400"
           title="Remove"
         >
           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

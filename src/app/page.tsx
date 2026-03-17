@@ -10,8 +10,8 @@ export default function Home() {
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2.5">
             <Logo size={32} />
-            <span className="text-[15px] font-bold tracking-tight text-white">
-              PNG To JPG
+            <span className="text-[15px] font-bold tracking-tight text-gray-900">
+              PNG To PDF
             </span>
           </div>
           <span className="hidden text-sm text-muted sm:block">
@@ -29,8 +29,8 @@ export default function Home() {
               Your files never leave your device
             </span>
           </div>
-          <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-            Convert PNG to JPG
+          <h1 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+            Convert PNG to PDF
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
             Drop your images below. Conversion happens instantly in your
@@ -67,11 +67,11 @@ export default function Home() {
             <FeatureCard
               icon={
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                 </svg>
               }
-              title="Compact"
-              description="JPG files are significantly smaller than PNGs. Perfect for sharing, emailing, or saving storage."
+              title="Merge"
+              description="Combine multiple PNG images into a single PDF document. Perfect for creating multi-page documents."
             />
           </div>
         </section>
@@ -80,11 +80,11 @@ export default function Home() {
         <footer className="border-t border-border py-8">
           <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:text-left">
             <p className="text-sm text-muted">
-              &copy; {new Date().getFullYear()} pngtojpg.co.uk
+              &copy; {new Date().getFullYear()} pngtopdf.co.uk
             </p>
             <Link
               href="/privacy"
-              className="text-sm text-muted hover:text-white transition-colors"
+              className="text-sm text-muted hover:text-gray-900 transition-colors"
             >
               Privacy Policy
             </Link>
@@ -109,7 +109,7 @@ function FeatureCard({
       <div className="mb-3 text-muted">
         {icon}
       </div>
-      <h3 className="mb-1 text-sm font-semibold text-white">{title}</h3>
+      <h3 className="mb-1 text-sm font-semibold text-gray-900">{title}</h3>
       <p className="text-sm leading-relaxed text-muted">{description}</p>
     </div>
   );
