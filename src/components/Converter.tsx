@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { track } from "@vercel/analytics";
 import { convertPngToPdf, convertMultiplePngsToPdf, formatFileSize, getPdfFilename } from "@/lib/convert";
 import { saveAs } from "file-saver";
 import FileCard from "./FileCard";
@@ -34,6 +35,10 @@ export default function Converter() {
       setFiles((prev) => {
         const remaining = MAX_FILES - prev.length;
         const toAdd = incoming.slice(0, remaining);
+
+        if (toAdd.length > 0) {
+          track("upload", { fileCount: toAdd.length });
+        }
 
         return [
           ...prev,
@@ -81,15 +86,18 @@ export default function Converter() {
     setIsConverting(true);
     const pending = files.filter((f) => f.status === "pending");
 
+    let converted = 0;
     for (const item of pending) {
       setFiles((prev) =>
         prev.map((f) => (f.id === item.id ? { ...f, status: "converting" } : f)),
       );
       const result = await convertOne(item);
+      if (result.status === "done") converted++;
       setFiles((prev) =>
         prev.map((f) => (f.id === result.id ? result : f)),
       );
     }
+    if (converted > 0) track("convert", { fileCount: converted });
     setIsConverting(false);
   };
 
@@ -108,6 +116,7 @@ export default function Converter() {
 
   const downloadOne = (item: FileItem) => {
     if (!item.pdfBlob) return;
+    track("download", { type: "single" });
     saveAs(item.pdfBlob, getPdfFilename(item.file.name));
   };
 
@@ -118,6 +127,7 @@ export default function Converter() {
     setIsMerging(true);
     try {
       const mergedBlob = await convertMultiplePngsToPdf(doneFiles.map((f) => f.file));
+      track("download", { type: "merge", fileCount: doneFiles.length });
       saveAs(mergedBlob, "merged-images.pdf");
     } catch {
       // silently fail
