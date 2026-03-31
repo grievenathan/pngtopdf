@@ -82,12 +82,25 @@ export default function Home() {
             <p className="text-sm text-muted">
               &copy; {new Date().getFullYear()} pngtopdf.co.uk
             </p>
-            <Link
-              href="/privacy"
-              className="text-sm text-muted hover:text-gray-900 transition-colors"
-            >
-              Privacy Policy
-            </Link>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-muted">
+                Powered by{" "}
+                <a
+                  href="https://crestconvert.com/png-to-pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-gray-900 transition-colors underline"
+                >
+                  Crest Convert
+                </a>
+              </span>
+              <Link
+                href="/privacy"
+                className="text-sm text-muted hover:text-gray-900 transition-colors"
+              >
+                Privacy Policy
+              </Link>
+            </div>
           </div>
         </footer>
       </main>
